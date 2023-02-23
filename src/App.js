@@ -16,9 +16,13 @@ const App = () => {
   const getSession = async () => {
     const { data, error } = await supabase.auth.getSession();
     const { session } = data;
-    setUser(session?.user);
     setCurrentSession(session);
+    setUser(session?.user);
   };
+  const changeSession = () => {
+    getSession();
+  };
+
   useEffect(() => {
     getSession();
 
@@ -40,7 +44,7 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        <NavBar user={user} currentSession={currentSession} />
+        <NavBar changeSession={changeSession} user={user} />
         <AppRouter user={user} currentSession={currentSession} />
       </BrowserRouter>
     </>

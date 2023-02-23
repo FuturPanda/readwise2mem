@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "../pages/Home.js";
 import About from "../pages/About.js";
 import User from "../pages/User.js";
+import Jokes from "../pages/Jokes.js";
 
 const AppRouter = ({ currentSession, user }) => {
   return (
@@ -12,6 +13,10 @@ const AppRouter = ({ currentSession, user }) => {
       <Route
         path="/user"
         element={<User currentSession={currentSession} user={user} />}
+      />
+      <Route
+        path="/joke"
+        element={<Jokes currentSession={currentSession} user={user} />}
       />
     </Routes>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import Loggin from "./Loggin.js";
 
-const NavBar = ({ getSession }) => {
+const NavBar = ({ changeSession, user }) => {
   return (
     <div className="navbar">
       <ul>
@@ -15,8 +15,11 @@ const NavBar = ({ getSession }) => {
         <NavLink to="/user">
           <li>User</li>
         </NavLink>
+        <NavLink to="/joke">
+          <li>Joke</li>
+        </NavLink>
       </ul>
-      <Loggin getSession={getSession} />
+      <Loggin changeSession={changeSession} user={user} />
     </div>
   );
 };

@@ -2,24 +2,16 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../backend/config/supabaseConfig.js";
 import "../styles/components/loggin.scss";
 
-const Loggin = ({ getSession }) => {
+const Loggin = ({ changeSession, user }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState();
-  const [session, setSession] = useState(null);
 
-  const handleSessionChange = async () => {
-    let currentSession = await getSession();
-    console.log(currentSession);
-  };
-  useEffect(() => {
-    handleSessionChange();
-  });
   const signUpWithPassword = async () => {
     const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
     });
+    changeSession();
     console.log("Signed Up ! : " + data);
   };
 
@@ -28,11 +20,12 @@ const Loggin = ({ getSession }) => {
       email: email,
       password: password,
     });
-
+    changeSession();
     console.log("logged In ! : " + data);
   };
   const logOut = async () => {
     const { error } = await supabase.auth.signOut();
+    changeSession();
   };
 
   return (
@@ -62,7 +55,7 @@ const Loggin = ({ getSession }) => {
         </>
       ) : (
         <>
-          <p>Hello {session.user.email}</p>
+          <p>Hello {user.email}</p>
           <button onClick={logOut}>Log Out </button>
         </>
       )}
