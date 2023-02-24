@@ -7,6 +7,7 @@ const MyProfile = ({ currentSession }) => {
   const [readwiseApiKey, setReadwiseApiKey] = useState("");
   const [editState, setEditState] = useState(false);
   const [email, setEmail] = useState("");
+  const [lastFetched, setLastFetched] = useState("");
 
   const getUser = async () => {
     const { data } = await supabase.from("profiles").select("*");
@@ -14,9 +15,8 @@ const MyProfile = ({ currentSession }) => {
     if (user) setUser(user);
     if (user.mem_api_key) setMemApiKey(user.mem_api_key);
     if (user.readwise_api_key) setReadwiseApiKey(user.readwise_api_key);
-  };
-  const getEmail = async () => {
-    const newSet = await setEmail(currentSession.user.email);
+    if (user.email) setEmail(user.email);
+    if (user.last_fetched) setLastFetched(user.last_fetched);
   };
   const saveProfile = async () => {
     const res = await supabase
@@ -44,7 +44,7 @@ const MyProfile = ({ currentSession }) => {
   };
   useEffect(() => {
     getUser();
-    getEmail();
+    console.log(user);
   }, []);
   return (
     <div className="myprofile">
@@ -55,7 +55,6 @@ const MyProfile = ({ currentSession }) => {
           <p className="item-b"> PASSWORD </p>
           <p className="item-c">READWISE API KEY </p>
           <p className="item-d">MEM API KEY </p>
-          <button className="password-button">CHANGE PASSWORD</button>
           {editState == true ? (
             <input
               type="text"
@@ -66,6 +65,7 @@ const MyProfile = ({ currentSession }) => {
           ) : (
             <h2 className="email-button">{email}</h2>
           )}
+          <button className="password-button">CHANGE PASSWORD</button>
           {editState == true ? (
             <input
               type="text"
@@ -88,6 +88,7 @@ const MyProfile = ({ currentSession }) => {
           )}
         </div>
         <div className="button-wrapper">
+          <p> Last Fetch Was : {lastFetched}</p>
           <button className="button-save" onClick={saveProfile}>
             Save
           </button>

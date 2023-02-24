@@ -1,10 +1,11 @@
 import React from "react";
+import ImportRM from "../components/ImportRM.js";
 import NavBar from "../components/NavBar.js";
 
 const Home = () => {
   return (
     <div>
-      <h1>Readwise To Mem</h1>
+      <ImportRM />
     </div>
   );
 };
