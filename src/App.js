@@ -1,9 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
-import NavBar from "./components/NavBar.js";
-import AppRouter from "./components/AppRouter.js";
 import { BrowserRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Home from "./pages/Home.js";
+import Home from "./components/Home.js";
 import Loggin from "./components/Loggin.js";
 import Landing from "./components/Landing.js";
 
@@ -47,8 +45,13 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        <Loggin changeSession={changeSession} user={user} />
-        {currentSession ? <Home /> : <Landing />}
+        {currentSession ? (
+          <>
+            <Loggin changeSession={changeSession} user={user} /> <Home />
+          </>
+        ) : (
+          <Landing />
+        )}
       </BrowserRouter>
     </>
   );
