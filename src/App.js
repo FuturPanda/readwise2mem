@@ -3,6 +3,9 @@ import NavBar from "./components/NavBar.js";
 import AppRouter from "./components/AppRouter.js";
 import { BrowserRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Home from "./pages/Home.js";
+import Loggin from "./components/Loggin.js";
+import Landing from "./components/Landing.js";
 
 const supabase = createClient(
   process.env.REACT_APP_SUPABASE_URL,
@@ -44,8 +47,8 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        <NavBar changeSession={changeSession} user={user} />
-        <AppRouter user={user} currentSession={currentSession} />
+        <Loggin changeSession={changeSession} user={user} />
+        {currentSession ? <Home /> : <Landing />}
       </BrowserRouter>
     </>
   );

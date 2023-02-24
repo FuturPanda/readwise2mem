@@ -47,7 +47,8 @@ const ImportRM = () => {
       //   );
       console.log("export started");
     }
-    updateLastFetched();
+    // To decoment after -- update DB user profile date last fetched
+    // updateLastFetched();
   };
 
   useEffect(() => {
