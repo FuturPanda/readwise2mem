@@ -33,6 +33,8 @@ form {
 }
 .log-choice {
   width: 100%;
+  display: block;
+  overflow: hidden;
 }
 
 .log-choice button {
@@ -43,26 +45,38 @@ form {
   font-size: 1.5rem;
   outline: none;
   border: none;
-  padding: 10px 50px;
+  padding-bottom: 20px;
   cursor: pointer;
-  border-bottom: solid 0.5px rgb(225, 224, 224);
 }
 
-.log-choice button:focus {
-  border-bottom: solid 3px rgb(225, 224, 224);
-  padding: 7.5px 50px;
+.log-choice button::after {
+  content: "";
+  z-index: 10;
+  position: relative;
+  display: block;
+  background-color: rgb(225, 224, 224);
+  width: 100%;
+  height: 1px;
+  transform: translateY(19px);
+  // transition: translateX;
 }
+.log-choice button.active-menu::after {
+  height: 3px;
+  transform: translateY(17px);
+  // transform: translateX(20px);
+}
+
 .inputs-login {
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
+  margin-top: 20px;
+  margin-bottom: 30px;
 }
 .inputs-login input {
   background-color: transparent;
   color: white;
   padding: 10px 0;
   border: none;
-  border-bottom: solid 1px rgba(255, 255, 255, 0.333);
   margin: 40px 10px;
   font-size: 1.2rem;
   font-family: "ubuntu";
@@ -72,7 +86,6 @@ form {
 }
 .inputs-login input.email-input:focus {
   outline: none;
-  border-bottom: solid 2px rgb(255, 255, 255);
 }
 .btn-create {
   background-color: rgb(11, 55, 99);
@@ -89,5 +102,25 @@ form {
   outline: none;
 }
 .password-input {
+  border: none;
+}
+.box-input {
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
   border-bottom: solid 0.5px white;
+}
+.box-input:focus-within {
+  border-bottom: solid 2px white;
+}
+
+.inactive-eye {
+  display: none;
+}
+
+.feather-eye {
+  margin-right: 20px;
+  cursor: pointer;
 }
