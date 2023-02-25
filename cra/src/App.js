@@ -50,7 +50,7 @@ const App = () => {
             <Loggin changeSession={changeSession} user={user} /> <Home />
           </>
         ) : (
-          <Landing />
+          <Landing changeSession={changeSession} />
         )}
       </BrowserRouter>
     </>

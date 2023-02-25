@@ -5,11 +5,12 @@ import { UilEye } from "@iconscout/react-unicons";
 const Landing = ({ changeSession }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [activeMenu, setActiveMenu] = useState("SignUp");
+  const [activeMenu, setActiveMenu] = useState("signUp");
   const [activeEye, setActiveEye] = useState(true);
   const [inputType, setInputType] = useState("password");
 
-  const signUpWithPassword = async () => {
+  const signUpWithPassword = async (e) => {
+    e.preventDefault();
     const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
@@ -18,7 +19,8 @@ const Landing = ({ changeSession }) => {
     console.log("Signed Up ! : " + data);
   };
 
-  const logInWithPassword = async () => {
+  const logInWithPassword = async (e) => {
+    e.preventDefault();
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
@@ -28,9 +30,10 @@ const Landing = ({ changeSession }) => {
   };
 
   const changeStatusMenu = (e) => {
+    console.log(activeMenu);
     e.preventDefault();
-    if (activeMenu == "SignUp") setActiveMenu("LogIn");
-    else setActiveMenu("SignUp");
+    if (e.target.textContent == "LOG IN") setActiveMenu("logIn");
+    else setActiveMenu("signUp");
   };
   const changeActiveEye = (e) => {
     e.preventDefault();
@@ -42,6 +45,12 @@ const Landing = ({ changeSession }) => {
       setInputType("password");
     }
   };
+  const handleChangeEmail = (e) => {
+    setEmail(e.target.value);
+  };
+  const handleChangePassword = (e) => {
+    setPassword(e.target.value);
+  };
 
   return (
     <>
@@ -52,13 +61,13 @@ const Landing = ({ changeSession }) => {
         <form>
           <div className="log-choice">
             <button
-              className={activeMenu == "SignUp" ? "active-menu" : " "}
+              className={activeMenu == "signUp" ? "active-menu" : " "}
               onClick={changeStatusMenu}
             >
               SIGN UP
             </button>
             <button
-              className={activeMenu !== "SignUp" ? "active-menu" : " "}
+              className={activeMenu !== "signUp" ? "active-menu" : " "}
               onClick={changeStatusMenu}
             >
               LOG IN
@@ -73,6 +82,7 @@ const Landing = ({ changeSession }) => {
                 name=""
                 required="true"
                 placeholder="EMAIL"
+                onChange={handleChangeEmail}
               />
             </div>
             <div className=" password-box box-input">
@@ -82,6 +92,7 @@ const Landing = ({ changeSession }) => {
                 name=""
                 required="true"
                 placeholder="PASSWORD"
+                onChange={handleChangePassword}
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -125,7 +136,14 @@ const Landing = ({ changeSession }) => {
               </svg>
             </div>
           </div>
-          <button className="btn-create">CREATE ACCOUNT</button>
+          <button
+            className="btn-create"
+            onClick={
+              activeMenu == "logIn" ? logInWithPassword : signUpWithPassword
+            }
+          >
+            {activeMenu == "logIn" ? "LOG IN" : "CREATE ACCOUNT"}
+          </button>
         </form>
       </div>
     </>
