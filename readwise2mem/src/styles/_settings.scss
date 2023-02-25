@@ -1,0 +1,24 @@
+*,
+::after,
+::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Ubuntu", sans-serif;
+  color: white;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  // align-items: center;
+  flex-direction: column;
+  background: rgb(8, 40, 78);
+  background: radial-gradient(
+    circle,
+    rgba(8, 40, 78, 1) 0%,
+    rgba(4, 13, 24, 1) 100%
+  );
+}
