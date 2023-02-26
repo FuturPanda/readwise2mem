@@ -2,112 +2,40 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "./supabaseConfig";
 import { useAuth } from "./contexts/Auth";
 import { useNavigate } from "react-router-dom";
+import Modal from "./components/Modal";
 
 const Dashboard = () => {
-  const [user, setUser] = useState(null);
-  const [memApiKey, setMemApiKey] = useState("");
-  const [readwiseApiKey, setReadwiseApiKey] = useState("");
-  const [editState, setEditState] = useState(false);
-  const [email, setEmail] = useState("");
   const [lastFetched, setLastFetched] = useState("");
-  const navigateTo = useNavigate();
-  const { signOut } = useAuth();
+  const { user: userToSet, signOut } = useAuth();
+  const [user, setUser] = useState(userToSet);
+  const [activeModal, setActiveModal] = useState(false);
 
-  const getUser = async () => {
-    const { data } = await supabase.from("profiles").select("*");
-    const user = data[0];
-    if (user) setUser(user);
-    if (user.mem_api_key) setMemApiKey(user.mem_api_key);
-    if (user.readwise_api_key) setReadwiseApiKey(user.readwise_api_key);
-    if (user.email) setEmail(user.email);
-    if (user.last_fetched) setLastFetched(user.last_fetched);
+  const showModal = () => {
+    activeModal == false ? setActiveModal(true) : setActiveModal(false);
   };
 
-  const handleSignOut = async (e) => {
-    e.preventDefault();
-    await signOut();
-    navigateTo("/login");
-  };
-
-  const saveProfile = async () => {
-    const res = await supabase
-      .from("profiles")
-      .update({
-        mem_api_key: memApiKey,
-        readwise_api_key: readwiseApiKey,
-        email: email,
-      })
-      .eq("id", user.id);
-    console.log(res);
-    setEditState(false);
-  };
-  const editProfile = () => {
-    setEditState(true);
-  };
-  const handleChangeMem = (e) => {
-    setMemApiKey(e.target.value);
-  };
-  const handleChangeReadwise = (e) => {
-    setReadwiseApiKey(e.target.value);
-  };
-  const handleChangeEmail = (e) => {
-    setEmail(e.target.value);
-  };
-  useEffect(() => {
-    getUser();
-    console.log(user);
-  }, []);
   return (
     <div className="myprofile">
-      <section className="card-profile ">
-        <div className="container">
-          <p className="item-a"> EMAIL </p>
-          <p className="item-b"> PASSWORD </p>
-          <p className="item-c">READWISE API KEY </p>
-          <p className="item-d">MEM API KEY </p>
-          {editState == true ? (
-            <input
-              type="text"
-              className="email-button"
-              onChange={handleChangeEmail}
-              value={email}
-            />
-          ) : (
-            <h2 className="email-button">{email}</h2>
-          )}
-          <button className="password-button">CHANGE PASSWORD</button>
-          {editState == true ? (
-            <input
-              type="text"
-              className="readwise-input"
-              onChange={handleChangeReadwise}
-              value={readwiseApiKey}
-            />
-          ) : (
-            <h2 className="readwise-input">{readwiseApiKey}</h2>
-          )}
-          {editState == true ? (
-            <input
-              type="text"
-              className="mem-input"
-              onChange={handleChangeMem}
-              value={memApiKey}
-            />
-          ) : (
-            <h2 className="readwise-input"> {memApiKey} </h2>
-          )}
-        </div>
-        <div className="button-wrapper">
-          <p> Last Fetch Was : {lastFetched}</p>
-          <button className="button-save" onClick={saveProfile}>
-            Save
-          </button>
-          <button className="button-edit" onClick={editProfile}>
-            Edit Profile
-          </button>
-          <button onClick={handleSignOut}>Log Out</button>
-        </div>
-      </section>
+      <nav>
+        <p>Hey</p>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="feather feather-user"
+          onClick={showModal}
+        >
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </nav>
+      <Modal user={user} signOut={signOut} activeModal={activeModal} />
     </div>
   );
 };

@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Login from "./Login";
-import "./App.css";
 import { AuthProvider } from "./contexts/Auth";
 // import { PrivateRoute } from "./components/PrivateRoute";
 import { useAuth } from "./contexts/Auth";

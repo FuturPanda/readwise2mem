@@ -7,20 +7,44 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const session = supabase.auth.getSession();
-    console.log("auth context fetch session : ", session);
-    console.log(session.user);
-    setUser(session?.user ?? null);
+  const getUser = async () => {
+    const { data } = await supabase.from("profiles").select("*");
+    const userToSet = data[0];
+    if (userToSet)
+      setUser({
+        memApiKey: userToSet.mem_api_key ?? null,
+        readwiseApiKey: userToSet.readwise_api_key ?? null,
+        email: userToSet.email,
+        lastFetched: userToSet.last_fetched ?? null,
+      });
     setLoading(false);
+  };
+  const getSession = async () => {
+    const { data, error } = await supabase.auth.getSession();
+    return data;
+  };
 
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        setUser(session?.user ?? null);
+  const getAuthChange = async () => {
+    const { data: listener } = await supabase.auth.onAuthStateChange(
+      (event, session) => {
+        const userToSet = session?.user ?? null;
+        if (userToSet)
+          setUser({
+            memApiKey: userToSet.mem_api_key ?? null,
+            readwiseApiKey: userToSet.readwise_api_key ?? null,
+            email: userToSet.email,
+            lastFetched: userToSet.last_fetched ?? null,
+          });
         setLoading(false);
-        console.log(event, session, " on auth change");
       }
     );
+    return;
+  };
+
+  useEffect(() => {
+    const authChange = getAuthChange();
+    const session = getSession();
+    if (session) getUser();
 
     return () => {
       // listener?.unsubscribe();
