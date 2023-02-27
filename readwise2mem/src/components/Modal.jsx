@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useAuth } from "../contexts/Auth";
 import { supabase } from "../supabaseConfig";
 import { useNavigate } from "react-router-dom";
+import Backdrop from "./Backdrop";
 
 const Modal = ({ user, signOut, activeModal, closeModal }) => {
   const [editState, setEditState] = useState(false);
@@ -52,6 +53,7 @@ const Modal = ({ user, signOut, activeModal, closeModal }) => {
   return (
     <div
       className={activeModal == false ? "profile-box inactive" : "profile-box"}
+      onClick={(e) => e.stopPropagation}
     >
       <h1>Profil : </h1>
       <form onSubmit={saveProfile}>
@@ -108,8 +110,9 @@ const Modal = ({ user, signOut, activeModal, closeModal }) => {
       <p>
         Date of the last Import : <span>{user.lastFetched}</span>
       </p>
+    </div>
 
-      {/* <>
+    /* <>
         <div className="login-box">
           <div className="header-landing">
             <h2>Profil</h2>
@@ -181,8 +184,7 @@ const Modal = ({ user, signOut, activeModal, closeModal }) => {
             </section>
           </div>
         </div>
-      </> */}
-    </div>
+      </> */
   );
 };
 

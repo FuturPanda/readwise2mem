@@ -1,0 +1,8 @@
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.397);
+  z-index: -1;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  transform: translateY(-10%);
+}

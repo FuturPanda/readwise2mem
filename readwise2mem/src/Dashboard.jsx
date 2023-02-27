@@ -3,6 +3,7 @@ import { supabase } from "./supabaseConfig";
 import { useAuth } from "./contexts/Auth";
 import { useNavigate } from "react-router-dom";
 import Modal from "./components/Modal";
+import Backdrop from "./components/Backdrop";
 
 const Dashboard = () => {
   const [lastFetched, setLastFetched] = useState("");
@@ -19,12 +20,14 @@ const Dashboard = () => {
 
   return (
     <div className="myprofile dashboard-box">
-      <Modal
-        user={user}
-        signOut={signOut}
-        activeModal={activeModal}
-        closeModal={closeModal}
-      />
+      <Backdrop visible={activeModal} onClick={closeModal}>
+        <Modal
+          user={user}
+          signOut={signOut}
+          activeModal={activeModal}
+          closeModal={closeModal}
+        />
+      </Backdrop>
       <nav className="topbar">
         <h2>Readwise to Mem</h2>
         <div className={activeModal == true ? "modal active" : "modal"}>

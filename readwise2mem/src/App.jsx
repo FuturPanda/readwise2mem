@@ -31,7 +31,6 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Readwise to Mem</h1>
       <AuthProvider>
         <RouterProvider router={router} />
       </AuthProvider>
