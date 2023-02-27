@@ -11,16 +11,13 @@ import { AuthProvider } from "./contexts/Auth";
 // import { PrivateRoute } from "./components/PrivateRoute";
 import { useAuth } from "./contexts/Auth";
 import { useEffect } from "react";
+import { PrivateRoute } from "./components/PrivateRoute";
 
 function App() {
-  // const { user } = useAuth();
-  // useEffect(() => {
-  //   console.log(user);
-  // });
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Dashboard />,
+      element: <PrivateRoute component={Dashboard} />,
     },
     {
       path: "/login",

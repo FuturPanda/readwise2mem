@@ -13,9 +13,12 @@ const Dashboard = () => {
   const showModal = () => {
     activeModal == false ? setActiveModal(true) : setActiveModal(false);
   };
+  const closeModal = () => {
+    activeModal == false ? setActiveModal(true) : setActiveModal(false);
+  };
 
   return (
-    <div className="myprofile">
+    <div className="myprofile dashboard-box">
       <nav>
         <p>Hey</p>
         <svg
@@ -35,7 +38,12 @@ const Dashboard = () => {
           <circle cx="12" cy="7" r="4"></circle>
         </svg>
       </nav>
-      <Modal user={user} signOut={signOut} activeModal={activeModal} />
+      <Modal
+        user={user}
+        signOut={signOut}
+        activeModal={activeModal}
+        closeModal={closeModal}
+      />
     </div>
   );
 };

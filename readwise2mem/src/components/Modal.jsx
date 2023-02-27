@@ -3,12 +3,14 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useAuth } from "../contexts/Auth";
 import { supabase } from "../supabaseConfig";
+import { useNavigate } from "react-router-dom";
 
-const Modal = ({ user, signOut, activeModal }) => {
+const Modal = ({ user, signOut, activeModal, closeModal }) => {
   const [editState, setEditState] = useState(false);
   const [memApiKey, setMemApiKey] = useState(user.memApiKey);
   const [readwiseApiKey, setReadwiseApiKey] = useState(user.readwiseApiKey);
   const [email, setEmail] = useState(user.email);
+  const navigateTo = useNavigate();
 
   const handleSignOut = async (e) => {
     e.preventDefault();
@@ -51,6 +53,22 @@ const Modal = ({ user, signOut, activeModal }) => {
     <div
       className={activeModal == false ? "profile-box inactive" : "profile-box"}
     >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="feather feather-x"
+        onClick={closeModal}
+      >
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
       <h1>Profil : </h1>
       <form onSubmit={saveProfile}>
         {editState == true ? (
