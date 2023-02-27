@@ -21,3 +21,49 @@ svg {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
     rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
+
+.topbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 50px;
+  padding: 10px 20px;
+}
+.modal {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.125);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal:hover {
+  background-color: rgba(255, 255, 255, 0.125);
+}
+.modal svg {
+  // transition: width 0.6s, height 0.6s ease;
+}
+
+.modal svg:active {
+  width: 20px;
+  height: 20px;
+}
+div .modal::after {
+  position: absolute;
+  content: "";
+  height: 40px;
+  width: 0px;
+  background-color: rgba(205, 202, 202, 0.125);
+  overflow: hidden;
+  border-radius: 12px;
+  transition: width 0.5s 0.3s ease-in-out;
+}
+
+.modal.active::after {
+  z-index: -1;
+  width: 40px;
+}

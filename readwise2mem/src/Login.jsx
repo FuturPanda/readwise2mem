@@ -94,6 +94,7 @@ const Login = () => {
                 required={true}
                 placeholder="EMAIL"
                 onChange={handleChangeEmail}
+                onKeyDown={(e) => e.stopPropagation}
               />
             </div>
             <div className=" password-box box-input">
@@ -104,6 +105,7 @@ const Login = () => {
                 required={true}
                 placeholder="PASSWORD"
                 onChange={handleChangePassword}
+                onKeyDown={(e) => e.stopPropagation}
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
