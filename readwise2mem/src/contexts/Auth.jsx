@@ -6,6 +6,7 @@ const AuthContext = React.createContext();
 export function AuthProvider({ children }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
+  const [session, setSession] = useState("");
 
   const getUser = async () => {
     const { data } = await supabase.from("profiles").select("*");
@@ -28,13 +29,15 @@ export function AuthProvider({ children }) {
     const { data: listener } = await supabase.auth.onAuthStateChange(
       (event, session) => {
         const userToSet = session?.user ?? null;
-        if (userToSet)
+        if (userToSet) {
           setUser({
             memApiKey: userToSet.mem_api_key ?? null,
             readwiseApiKey: userToSet.readwise_api_key ?? null,
             email: userToSet.email,
             lastFetched: userToSet.last_fetched ?? null,
           });
+          setSession(session);
+        }
         setLoading(false);
       }
     );
@@ -44,7 +47,9 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const authChange = getAuthChange();
     const session = getSession();
-    if (session) getUser();
+    if (session) {
+      getUser();
+    }
 
     return () => {
       // listener?.unsubscribe();
@@ -57,6 +62,7 @@ export function AuthProvider({ children }) {
     signIn: (data) => supabase.auth.signInWithPassword(data),
     signOut: () => supabase.auth.signOut(),
     user,
+    session,
   };
 
   return (

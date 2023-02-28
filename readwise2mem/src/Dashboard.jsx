@@ -7,27 +7,48 @@ import Backdrop from "./components/Backdrop";
 
 const Dashboard = () => {
   const [lastFetched, setLastFetched] = useState("");
-  const { user: userToSet, signOut } = useAuth();
+  const { user: userToSet, signOut, session } = useAuth();
   const [user, setUser] = useState(userToSet);
   const [activeModal, setActiveModal] = useState(false);
+  const [classAnimated, setClassAnimated] = useState("profile-box");
 
   const showModal = () => {
+    if (activeModal == true) {
+      setActiveModal(false);
+      return closeModal();
+    }
     activeModal == false ? setActiveModal(true) : setActiveModal(false);
+    const timer = setTimeout(() => {
+      setClassAnimated("profile-box animated");
+    }, 300);
+    return () => {
+      clearTimeout(timer);
+    };
   };
-  const closeModal = () => {
-    activeModal == false ? setActiveModal(true) : setActiveModal(false);
+  const closeModal = (e) => {
+    console.log(e.target);
+    if (e.target == e.currentTarget) {
+      console.log(e.target);
+      activeModal == false ? setActiveModal(true) : setActiveModal(false);
+      setClassAnimated("profile-box");
+    }
   };
+
+  useEffect(() => {}, [classAnimated]);
 
   return (
     <div className="myprofile dashboard-box">
-      <Backdrop visible={activeModal} onClick={closeModal}>
-        <Modal
-          user={user}
-          signOut={signOut}
-          activeModal={activeModal}
-          closeModal={closeModal}
-        />
-      </Backdrop>
+      <div className="wrapper">
+        <Backdrop visible={activeModal} onClick={closeModal}>
+          <Modal
+            user={user}
+            signOut={signOut}
+            activeModal={activeModal}
+            classAnimated={classAnimated}
+            session={session}
+          />
+        </Backdrop>
+      </div>
       <nav className="topbar">
         <h2>Readwise to Mem</h2>
         <div className={activeModal == true ? "modal active" : "modal"}>

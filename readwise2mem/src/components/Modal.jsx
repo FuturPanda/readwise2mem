@@ -1,12 +1,17 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { useAuth } from "../contexts/Auth";
 import { supabase } from "../supabaseConfig";
 import { useNavigate } from "react-router-dom";
-import Backdrop from "./Backdrop";
+import Button from "./Button";
 
-const Modal = ({ user, signOut, activeModal, closeModal }) => {
+const Modal = ({
+  user,
+  session,
+  signOut,
+  activeModal,
+  classAnimated: animated,
+}) => {
   const [editState, setEditState] = useState(false);
   const [memApiKey, setMemApiKey] = useState(user.memApiKey);
   const [readwiseApiKey, setReadwiseApiKey] = useState(user.readwiseApiKey);
@@ -27,12 +32,13 @@ const Modal = ({ user, signOut, activeModal, closeModal }) => {
         readwise_api_key: readwiseApiKey,
         email: email,
       })
-      .eq("id", user.id);
+      .eq("id", session.user.id);
     console.log(res);
     setEditState(false);
   };
 
   const editProfile = () => {
+    console.log("dit ! ");
     setEditState(true);
   };
 
@@ -52,7 +58,11 @@ const Modal = ({ user, signOut, activeModal, closeModal }) => {
 
   return (
     <div
-      className={activeModal == false ? "profile-box inactive" : "profile-box"}
+      className={
+        activeModal == false
+          ? "profile-box inactive"
+          : `profile-box ${animated}`
+      }
       onClick={(e) => e.stopPropagation}
     >
       <h1>Profil : </h1>
@@ -65,51 +75,58 @@ const Modal = ({ user, signOut, activeModal, closeModal }) => {
             value={user.email}
           />
         ) : (
-          <h2 className="email-button">{user.email}</h2>
+          <p className="email-button">{user.email}</p>
         )}
+        {/* <h3>Link To Api Keys</h3> */}
+
+        <p>
+          API Key MEM :{" "}
+          {editState == true ? (
+            <input
+              type="text"
+              className="mem-input"
+              onChange={handleChangeMem}
+              value={memApiKey}
+            />
+          ) : (
+            <span className="readwise-input"> {memApiKey} </span>
+          )}
+        </p>
+
+        <p>
+          API Key READWISE :{" "}
+          {editState == true ? (
+            <input
+              type="text"
+              className="readwise-input"
+              onChange={handleChangeReadwise}
+              value={user.readwiseApiKey}
+            />
+          ) : (
+            <span className="readwise-input">{user.readwiseApiKey}</span>
+          )}
+        </p>
+        <p>
+          Date of the last Import : <span>{user.lastFetched}</span>
+        </p>
       </form>
-      <button className="button-edit" onClick={editProfile}>
-        Edit Profile
-      </button>
-      <button className="button-save" onClick={saveProfile}>
-        Save
-      </button>
-      <button className="button-logout" onClick={handleSignOut}>
-        SignOut
-      </button>
-
-      <h2>Link To Api Keys</h2>
-
-      <p>
-        API Key MEM :{" "}
-        {editState == true ? (
-          <input
-            type="text"
-            className="mem-input"
-            onChange={handleChangeMem}
-            value={memApiKey}
-          />
-        ) : (
-          <span className="readwise-input"> {memApiKey} </span>
-        )}
-      </p>
-
-      <p>
-        API Key READWISE :{" "}
-        {editState == true ? (
-          <input
-            type="text"
-            className="readwise-input"
-            onChange={handleChangeReadwise}
-            value={user.readwiseApiKey}
-          />
-        ) : (
-          <span className="readwise-input">{user.readwiseApiKey}</span>
-        )}
-      </p>
-      <p>
-        Date of the last Import : <span>{user.lastFetched}</span>
-      </p>
+      <div className="btn-wrapper">
+        <Button
+          text="Edit Profile"
+          fonction="Edit Profile Button"
+          onClick={editProfile}
+        />
+        <Button
+          text="Save Profile"
+          fonction="Save Profile Button"
+          onClick={saveProfile}
+        />
+        <Button
+          text="Sign Out"
+          fonction="Sign Out Button"
+          onClick={handleSignOut}
+        />
+      </div>
     </div>
 
     /* <>
