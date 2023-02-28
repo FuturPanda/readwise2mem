@@ -4,9 +4,10 @@ import { useAuth } from "./contexts/Auth";
 import { useNavigate } from "react-router-dom";
 import Modal from "./components/Modal";
 import Backdrop from "./components/Backdrop";
+import Button from "./components/Button";
+import ImportRM from "./components/importRM";
 
 const Dashboard = () => {
-  const [lastFetched, setLastFetched] = useState("");
   const { user: userToSet, signOut, session } = useAuth();
   const [user, setUser] = useState(userToSet);
   const [activeModal, setActiveModal] = useState(false);
@@ -33,6 +34,7 @@ const Dashboard = () => {
       setClassAnimated("profile-box");
     }
   };
+  const testImport = () => {};
 
   useEffect(() => {}, [classAnimated]);
 
@@ -92,6 +94,11 @@ const Dashboard = () => {
           help me to find a job ! Thank you very much, Have a great day.
         </p>
       </section>
+      <ImportRM
+        memApiKey={user.memApiKey}
+        readwiseApiKey={user.readwiseApiKey}
+        lastFetched={user.lastFetched}
+      />
     </div>
   );
 };
