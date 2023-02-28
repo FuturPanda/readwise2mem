@@ -25,6 +25,7 @@ const Modal = ({
   };
 
   const saveProfile = async () => {
+    console.log(session);
     const res = await supabase
       .from("profiles")
       .update({
@@ -112,15 +113,13 @@ const Modal = ({
       </form>
       <div className="btn-wrapper">
         <Button
-          text="Edit Profile"
-          fonction="Edit Profile Button"
-          onClick={editProfile}
+          text={editState == true ? "Save Profile" : "Edit Profile"}
+          fonction={
+            editState == true ? "Save Profile Button" : "Edit Profile Button"
+          }
+          onClick={editState == true ? saveProfile : editProfile}
         />
-        <Button
-          text="Save Profile"
-          fonction="Save Profile Button"
-          onClick={saveProfile}
-        />
+
         <Button
           text="Sign Out"
           fonction="Sign Out Button"
