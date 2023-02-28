@@ -70,6 +70,28 @@ const Dashboard = () => {
           </svg>
         </div>
       </nav>
+      <section>
+        <h3>Welcome ! </h3>
+        <p>
+          To start import your readwise highlights to Mem, you first need to
+          fill in your Readwise Api Key and Mem Api Key in your user profile.
+          Then you can test to see if everything is working fine with the Test
+          button, which will import your highlights from the past two days. If
+          everything is working fine, you can go ahead and click the import all
+          button. For now R2M doesn't support continuous import, so you'll need
+          to come here to import manually when you need your hilights. Don't
+          worry, there will be not duplicates, new highlights from existing
+          imports will be append to their respectives mems.
+        </p>{" "}
+        <br />
+        <p>
+          For any troubleshooting, don't hesitate to email me at :
+          sty.hoareau@gmail.com. You cant find me on twitter or github. For the
+          record, I am actually learning web development, so I would really
+          apreciate if you could star this project on github, it would greatly
+          help me to find a job ! Thank you very much, Have a great day.
+        </p>
+      </section>
     </div>
   );
 };

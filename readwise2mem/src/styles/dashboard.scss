@@ -68,3 +68,14 @@ div .modal::after {
   z-index: -1;
   width: 40px;
 }
+
+section {
+  margin: 20px;
+  width: 70%;
+}
+section h3 {
+  margin: 20px 0;
+}
+section p {
+  line-height: 1.2;
+}
