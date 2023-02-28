@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { supabase } from "../supabaseConfig";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
+import CryptoJS from "crypto-js";
 
 const Modal = ({
   user,
@@ -12,11 +13,29 @@ const Modal = ({
   activeModal,
   classAnimated: animated,
 }) => {
+  const decrypt = (data) => {
+    const decrypted = CryptoJS.AES.decrypt(
+      data,
+      import.meta.env.VITE_ENCRYPTION_KEY
+    );
+    return decrypted.toString(CryptoJS.enc.Utf8);
+  };
   const [editState, setEditState] = useState(false);
-  const [memApiKey, setMemApiKey] = useState(user.memApiKey);
-  const [readwiseApiKey, setReadwiseApiKey] = useState(user.readwiseApiKey);
+  const [memApiKey, setMemApiKey] = useState(decrypt(user.memApiKey));
+  const [readwiseApiKey, setReadwiseApiKey] = useState(
+    decrypt(user.readwiseApiKey)
+  );
   const [email, setEmail] = useState(user.email);
   const navigateTo = useNavigate();
+
+  const encrypt = (text) => {
+    console.log(text);
+    const encrypted = CryptoJS.AES.encrypt(
+      text,
+      import.meta.env.VITE_ENCRYPTION_KEY
+    );
+    return encrypted.toString();
+  };
 
   const handleSignOut = async (e) => {
     e.preventDefault();
@@ -29,8 +48,8 @@ const Modal = ({
     const res = await supabase
       .from("profiles")
       .update({
-        mem_api_key: memApiKey,
-        readwise_api_key: readwiseApiKey,
+        mem_api_key: encrypt(memApiKey),
+        readwise_api_key: encrypt(readwiseApiKey),
         email: email,
       })
       .eq("id", session.user.id);
@@ -54,6 +73,10 @@ const Modal = ({
   };
 
   useEffect(() => {
+    console.log("use effetc here");
+    console.log(user.memApiKey);
+    setMemApiKey(decrypt(user.memApiKey));
+    setReadwiseApiKey(decrypt(user.readwiseApiKey));
     console.log(user);
   }, []);
 
@@ -101,10 +124,10 @@ const Modal = ({
               type="text"
               className="readwise-input"
               onChange={handleChangeReadwise}
-              value={user.readwiseApiKey}
+              value={readwiseApiKey}
             />
           ) : (
-            <span className="readwise-input">{user.readwiseApiKey}</span>
+            <span className="readwise-input">{readwiseApiKey}</span>
           )}
         </p>
         <p>
