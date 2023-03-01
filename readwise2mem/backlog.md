@@ -3,11 +3,9 @@
 - how to not create mem when highlights == 0 ?
 
 1. Import All Fonction
-2. UI design
-3. catch error, and handle status
-4. Auth
-5. Templating
-6. Auto Sync ?
+2. catch error, and handle status
+3. Templating
+4. Auto Sync ?
 
 ## Templating
 
@@ -15,4 +13,7 @@
 
 ## Improvements :
 
-1. Make backdrop not render modal when closed
+1. Error messages for login
+2. Status messages for import sucess / error
+3. ui design for input when editState true
+4. login on key enter when input password && stop propagation

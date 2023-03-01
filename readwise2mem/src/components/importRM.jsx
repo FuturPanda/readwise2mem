@@ -8,8 +8,8 @@ import {
 import Button from "./Button.jsx";
 import CryptoJS from "crypto-js";
 
-const ImportRM = ({ memApiKey, lastFetched, readwiseApiKey }) => {
-  const [user, setUser] = useState("");
+const ImportRM = ({ memApiKey, lastFetched, readwiseApiKey, userId }) => {
+  // const [user, setUser] = useState("");
   const [error, setError] = useState(null);
   // const [lastFetched, setLastFetched] = useState("");
   const [importAllBtn, setImportAllBtn] = useState(false);
@@ -35,21 +35,17 @@ const ImportRM = ({ memApiKey, lastFetched, readwiseApiKey }) => {
     const updatedDate = await supabase
       .from("profiles")
       .update({ last_fetched: newDate.toISO() })
-      .eq("id", user.id);
+      .eq("id", user);
   };
 
   const fetchReadwise = async () => {
-    // const {
-    //   mem_api_key: memApiKey,
-    //   readwise_api_key: readwiseApiKey,
-    //   last_fetched: lastFetched,
-    // } = user;
     const lastFetchedMs = DateTime.fromISO(lastFetched).ts;
     // const exportAll = await exportAllReadwise(readwiseApiKey, memApiKey);
     const exportAfterDate = await exportReadwiseAfterDate(
       decrypt(readwiseApiKey),
       lastFetchedMs,
-      decrypt(memApiKey)
+      decrypt(memApiKey),
+      userId
     );
     console.log("export started");
   };

@@ -46,8 +46,14 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const authChange = getAuthChange();
-    const session = getSession();
+    if (!authChange) {
+      console.log("not auth change");
+      const session = getSession();
+    }
+
     if (session) {
+      console.log("session exists");
+      setSession(session);
       getUser();
     }
 

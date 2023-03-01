@@ -98,6 +98,7 @@ const Dashboard = () => {
         memApiKey={user.memApiKey}
         readwiseApiKey={user.readwiseApiKey}
         lastFetched={user.lastFetched}
+        userId={session.user.id}
       />
     </div>
   );
