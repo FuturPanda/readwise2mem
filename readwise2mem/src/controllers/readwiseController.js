@@ -2,25 +2,13 @@ import { formatUniqueMem, appendMem } from "./memController.js";
 import fetchFromExportApi from "./readwiseClient.js";
 import { supabase } from "../supabaseConfig.js";
 import { v4 as uuidv4 } from "uuid";
-import { MemClient } from "@mem-labs/mem-node";
+
 import { addBookToDB, checkBookDB } from "./supabaseController";
 
 const formatAndCreate = (newData, memApiKey, userId) => {
   for (let i = 0; i < newData.length; i++) {
-    checkBookDB(user_book_id, highlights, userId);
-    // addBookToDB(user_book_id, highlights, userId, memId);
     const memId = uuidv4();
-    const dataToSend = formatUniqueMem(newData[i], userId, memId);
-    if (dataToSend) {
-      const memClient = new MemClient({
-        apiAccessToken: memApiKey,
-      });
-      // console.log(newData);
-      // const newMem = memClient.createMem({
-      //   content: dataToSend,
-      //   memId: memId,
-      // });
-    }
+    checkBookDB(newData[i], userId, memId, memApiKey);
   }
 };
 const exportAllReadwise = async (token, memApiKey) => {

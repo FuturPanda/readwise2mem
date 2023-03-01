@@ -6,6 +6,7 @@
 2. catch error, and handle status
 3. Templating
 4. Auto Sync ?
+5. Reset db button
 
 ## Templating
 
