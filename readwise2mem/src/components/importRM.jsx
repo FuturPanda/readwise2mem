@@ -7,6 +7,8 @@ import {
 } from "../controllers/readwiseController";
 import Button from "./Button.jsx";
 import CryptoJS from "crypto-js";
+import { MemClient } from "@mem-labs/mem-node";
+import { v4 as uuidv4 } from "uuid";
 
 const ImportRM = ({ memApiKey, lastFetched, readwiseApiKey, userId }) => {
   // const [user, setUser] = useState("");
@@ -22,13 +24,6 @@ const ImportRM = ({ memApiKey, lastFetched, readwiseApiKey, userId }) => {
     );
     return decrypted.toString(CryptoJS.enc.Utf8);
   };
-
-  // const getApiKey = async () => {
-  //   const { data } = await supabase.from("profiles").select("*");
-  //   const user = data[0];
-  //   setUser(user);
-  //   console.log(user);
-  // };
 
   const updateLastFetched = async () => {
     const newDate = DateTime.now();
@@ -51,12 +46,9 @@ const ImportRM = ({ memApiKey, lastFetched, readwiseApiKey, userId }) => {
     );
     console.log("export started");
   };
+
   // To decoment after -- update DB user profile date last fetched
   // updateLastFetched();
-
-  // useEffect(() => {
-  //   // getApiKey();
-  // }, []);
 
   return (
     <div>

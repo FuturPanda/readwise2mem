@@ -1,4 +1,4 @@
-import formatUniqueMem from "./memController.js";
+import { formatUniqueMem } from "./memController.js";
 import fetchFromExportApi from "./readwiseClient.js";
 import {
   exportReadwiseAfterDate,

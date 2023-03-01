@@ -1,4 +1,4 @@
-import { addBookToDB, checkBookDB } from "./supabaseController";
+import { MemClient } from "@mem-labs/mem-node";
 const formatUniqueMem = (dataobj, userId, memId) => {
   console.log("formatting mem....");
 
@@ -13,8 +13,6 @@ const formatUniqueMem = (dataobj, userId, memId) => {
     highlights,
     user_book_id,
   } = dataobj;
-  checkBookDB(user_book_id, highlights, userId, memId);
-  // addBookToDB(user_book_id, highlights, userId, memId);
 
   const textDataToSend = [
     "# ",
@@ -58,4 +56,16 @@ const formatUniqueMem = (dataobj, userId, memId) => {
     return textDataToSend.join(" ");
   } else return false;
 };
-export default formatUniqueMem;
+
+const appendMem = async (data, memId, memApiKey) => {
+  const response = await fetch(`https://api.mem.ai/v0/mems/${memId}/append`, {
+    method: "POST",
+    headers: {
+      Authorization: `ApiAccessToken ${memApiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+};
+
+export { formatUniqueMem, appendMem };

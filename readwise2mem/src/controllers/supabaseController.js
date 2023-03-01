@@ -1,4 +1,5 @@
 import { supabase } from "../supabaseConfig";
+import { appendMem } from "./memController";
 
 const checkBookDB = async (book_id, highlights, userId, memId) => {
   const { data, error } = await supabase
@@ -10,23 +11,25 @@ const checkBookDB = async (book_id, highlights, userId, memId) => {
     // addBookToDB(book_id, highlights, userId, memId)
   } else {
     const book = data[0];
+
     for (let i = 0; i < highlights.length; i++) {
+      console.log(highlights[i].text);
       if (book.highlights.highlights.includes(highlights[i].id)) return;
       else {
-        addHighlightToBook();
+        // addHighlightToBook(highlights[i].id, book);
+        // appendMem(book.memId, highlights[i].text)
       }
-      console.log(highlights[i].id);
+
       // console.log(book.highlights.highlights[i]);
     }
   }
 };
-const addHighlightToBook = async (highlights, book_id) => {
+const addHighlightToBook = async (highlight, book) => {
   try {
-    const allHighlightsID = { highlights: highlights.map((item) => item.id) };
     const { error } = await supabase
       .from("books_readwise")
-      .update({ highlights: allHighlightsID })
-      .eq("id", book_id);
+      .update({ highlights: [...book.hilights.highlights, highlight] })
+      .eq("id", book.id);
 
     if (error) throw error;
   } catch (error) {
