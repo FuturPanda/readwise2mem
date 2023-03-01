@@ -2,21 +2,21 @@ import formatUniqueMem from "./memController.js";
 import fetchFromExportApi from "./readwiseClient.js";
 import { MemClient } from "@mem-labs/mem-node";
 import { supabase } from "../supabaseConfig.js";
+import { v4 as uuidv4 } from "uuid";
 
 const formatAndCreate = (newData, memApiKey, userId) => {
   for (let i = 0; i < newData.length; i++) {
-    const { dataToSend, memId } = formatUniqueMem(newData[i], userId);
+    const memId = uuidv4();
+    const dataToSend = formatUniqueMem(newData[i], userId, memId);
     if (dataToSend) {
       const memClient = new MemClient({
         apiAccessToken: memApiKey,
       });
-      console.log("MemId");
-      console.log(memid);
       // console.log(newData);
-      // const newMem = memClient.createMem({
-      //   content: dataToSend,
-
-      // });
+      const newMem = memClient.createMem({
+        content: dataToSend,
+        memId: memId,
+      });
     }
   }
 };

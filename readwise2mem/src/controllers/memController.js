@@ -1,5 +1,5 @@
-import addBookToDB from "./supabaseController";
-const formatUniqueMem = (dataobj, userId) => {
+import { addBookToDB, checkBookDB } from "./supabaseController";
+const formatUniqueMem = (dataobj, userId, memId) => {
   console.log("formatting mem....");
 
   const {
@@ -13,7 +13,9 @@ const formatUniqueMem = (dataobj, userId) => {
     highlights,
     user_book_id,
   } = dataobj;
-  const memId = addBookToDB(user_book_id, highlights, userId);
+  checkBookDB(user_book_id, highlights, userId, memId);
+  // addBookToDB(user_book_id, highlights, userId, memId);
+
   const textDataToSend = [
     "# ",
     title + "\n",
@@ -53,7 +55,7 @@ const formatUniqueMem = (dataobj, userId) => {
         );
       }
     }
-    return { dataToSend: textDataToSend.join(" "), memId: memId };
+    return textDataToSend.join(" ");
   } else return false;
 };
 export default formatUniqueMem;

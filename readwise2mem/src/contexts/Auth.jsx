@@ -6,7 +6,7 @@ const AuthContext = React.createContext();
 export function AuthProvider({ children }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
-  const [session, setSession] = useState("");
+  const [sessionState, setSessionState] = useState("");
 
   const getUser = async () => {
     const { data } = await supabase.from("profiles").select("*");
@@ -22,12 +22,14 @@ export function AuthProvider({ children }) {
   };
   const getSession = async () => {
     const { data, error } = await supabase.auth.getSession();
-    return data;
+    const { session } = data;
+    setSessionState(session);
   };
 
   const getAuthChange = async () => {
     const { data: listener } = await supabase.auth.onAuthStateChange(
       (event, session) => {
+        console.log(session);
         const userToSet = session?.user ?? null;
         if (userToSet) {
           setUser({
@@ -41,21 +43,14 @@ export function AuthProvider({ children }) {
         setLoading(false);
       }
     );
-    return;
+    const { subscription } = listener;
+    return subscription?.unsubscribe();
   };
 
   useEffect(() => {
     const authChange = getAuthChange();
-    if (!authChange) {
-      console.log("not auth change");
-      const session = getSession();
-    }
-
-    if (session) {
-      console.log("session exists");
-      setSession(session);
-      getUser();
-    }
+    getUser();
+    getSession();
 
     return () => {
       // listener?.unsubscribe();
@@ -68,7 +63,7 @@ export function AuthProvider({ children }) {
     signIn: (data) => supabase.auth.signInWithPassword(data),
     signOut: () => supabase.auth.signOut(),
     user,
-    session,
+    sessionState,
   };
 
   return (

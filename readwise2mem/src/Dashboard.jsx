@@ -8,7 +8,7 @@ import Button from "./components/Button";
 import ImportRM from "./components/importRM";
 
 const Dashboard = () => {
-  const { user: userToSet, signOut, session } = useAuth();
+  const { user: userToSet, signOut, sessionState } = useAuth();
   const [user, setUser] = useState(userToSet);
   const [activeModal, setActiveModal] = useState(false);
   const [classAnimated, setClassAnimated] = useState("profile-box");
@@ -34,8 +34,10 @@ const Dashboard = () => {
       setClassAnimated("profile-box");
     }
   };
-  const testImport = () => {};
-
+  // useEffect(() => {
+  //   setUser(userToSet);
+  //   console.log(user);
+  // }, [userToSet]);
   useEffect(() => {}, [classAnimated]);
 
   return (
@@ -47,7 +49,7 @@ const Dashboard = () => {
             signOut={signOut}
             activeModal={activeModal}
             classAnimated={classAnimated}
-            session={session}
+            session={sessionState}
           />
         </Backdrop>
       </div>
@@ -98,7 +100,7 @@ const Dashboard = () => {
         memApiKey={user.memApiKey}
         readwiseApiKey={user.readwiseApiKey}
         lastFetched={user.lastFetched}
-        userId={session.user.id}
+        userId={sessionState.user.id}
       />
     </div>
   );

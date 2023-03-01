@@ -15,6 +15,7 @@ const ImportRM = ({ memApiKey, lastFetched, readwiseApiKey, userId }) => {
   const [importAllBtn, setImportAllBtn] = useState(false);
 
   const decrypt = (data) => {
+    if (!data) return;
     const decrypted = CryptoJS.AES.decrypt(
       data,
       import.meta.env.VITE_ENCRYPTION_KEY
@@ -41,6 +42,7 @@ const ImportRM = ({ memApiKey, lastFetched, readwiseApiKey, userId }) => {
   const fetchReadwise = async () => {
     const lastFetchedMs = DateTime.fromISO(lastFetched).ts;
     // const exportAll = await exportAllReadwise(readwiseApiKey, memApiKey);
+    console.log(userId);
     const exportAfterDate = await exportReadwiseAfterDate(
       decrypt(readwiseApiKey),
       lastFetchedMs,
@@ -52,9 +54,9 @@ const ImportRM = ({ memApiKey, lastFetched, readwiseApiKey, userId }) => {
   // To decoment after -- update DB user profile date last fetched
   // updateLastFetched();
 
-  useEffect(() => {
-    // getApiKey();
-  }, []);
+  // useEffect(() => {
+  //   // getApiKey();
+  // }, []);
 
   return (
     <div>
