@@ -17,6 +17,7 @@ export function AuthProvider({ children }) {
         readwiseApiKey: userToSet.readwise_api_key ?? null,
         email: userToSet.email,
         lastFetched: userToSet.last_fetched ?? null,
+        importStatus: userToSet.import_status ?? null,
       });
     setLoading(false);
   };
@@ -37,6 +38,7 @@ export function AuthProvider({ children }) {
             readwiseApiKey: userToSet.readwise_api_key ?? null,
             email: userToSet.email,
             lastFetched: userToSet.last_fetched ?? null,
+            importStatus: userToSet.import_status ?? null,
           });
           setSession(session);
         }

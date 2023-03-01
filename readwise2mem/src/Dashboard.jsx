@@ -34,10 +34,7 @@ const Dashboard = () => {
       setClassAnimated("profile-box");
     }
   };
-  // useEffect(() => {
-  //   setUser(userToSet);
-  //   console.log(user);
-  // }, [userToSet]);
+
   useEffect(() => {}, [classAnimated]);
 
   return (
@@ -101,6 +98,7 @@ const Dashboard = () => {
         readwiseApiKey={user.readwiseApiKey}
         lastFetched={user.lastFetched}
         userId={sessionState.user.id}
+        importStatus={user.importStatus}
       />
     </div>
   );

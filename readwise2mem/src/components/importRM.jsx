@@ -10,11 +10,18 @@ import CryptoJS from "crypto-js";
 import { MemClient } from "@mem-labs/mem-node";
 import { v4 as uuidv4 } from "uuid";
 
-const ImportRM = ({ memApiKey, lastFetched, readwiseApiKey, userId }) => {
+const ImportRM = ({
+  memApiKey,
+  lastFetched,
+  readwiseApiKey,
+  userId,
+  importStatus,
+}) => {
   // const [user, setUser] = useState("");
   const [error, setError] = useState(null);
   // const [lastFetched, setLastFetched] = useState("");
   const [importAllBtn, setImportAllBtn] = useState(false);
+  const [importStatusState, setImportStatusState] = useState(importStatus);
 
   const decrypt = (data) => {
     if (!data) return;
@@ -46,7 +53,12 @@ const ImportRM = ({ memApiKey, lastFetched, readwiseApiKey, userId }) => {
     );
     console.log("export started");
   };
-
+  const handleImportStatus = () => {
+    console.log(importStatusState);
+    if (importStatusState == true) {
+      setImportStatusState(false);
+    } else setImportStatusState(true);
+  };
   // To decoment after -- update DB user profile date last fetched
   // updateLastFetched();
 
@@ -57,6 +69,11 @@ const ImportRM = ({ memApiKey, lastFetched, readwiseApiKey, userId }) => {
           text="TEST"
           fonction="Test import button"
           onClick={fetchReadwise}
+        />
+        <Button
+          text={importStatus == true ? "Importing" : "Import Stopped"}
+          fonction="import status button"
+          onClick={handleImportStatus}
         />
       </main>
     </div>
