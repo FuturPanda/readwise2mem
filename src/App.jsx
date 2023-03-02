@@ -1,5 +1,3 @@
-import { useState } from "react";
-// import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -8,7 +6,6 @@ import {
 import Dashboard from "./Dashboard";
 import Login from "./Login";
 import { AuthProvider } from "./contexts/Auth";
-// import { PrivateRoute } from "./components/PrivateRoute";
 import { useAuth } from "./contexts/Auth";
 import { useEffect } from "react";
 import { PrivateRoute } from "./components/PrivateRoute";

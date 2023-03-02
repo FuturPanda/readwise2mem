@@ -15,12 +15,8 @@ const ImportRM = ({
   userId,
   importStatus,
 }) => {
-  // const [user, setUser] = useState("");
   const [error, setError] = useState(null);
-  // const [lastFetched, setLastFetched] = useState("");
-  const [importAllBtn, setImportAllBtn] = useState(false);
   const [importStatusState, setImportStatusState] = useState(importStatus);
-  const [intervId, setIntervId] = useState(null);
 
   const decrypt = (data) => {
     if (!data) return;
@@ -33,7 +29,6 @@ const ImportRM = ({
 
   const updateLastFetched = async () => {
     const newDate = DateTime.now();
-    // console.log(newDate.toISO());
     const updatedDate = await supabase
       .from("profiles")
       .update({ last_fetched: newDate.toISO() })
@@ -83,11 +78,6 @@ const ImportRM = ({
           text="Update Import"
           fonction="Test import button"
           onClick={fetchReadwise}
-        />
-        <Button
-          text={importStatusState == true ? "Importing" : "Import Stopped"}
-          fonction="import status button"
-          onClick={handleImportStatus}
         />
       </main>
     </div>

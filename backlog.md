@@ -18,6 +18,7 @@
 2. Status messages for import sucess / error
 3. ui design for input when editState true
 4. login on key enter when input password && stop propagation
+5. Use State for lastFetched.
 
 ## Continous :
 
