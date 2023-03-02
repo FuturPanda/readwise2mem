@@ -1,11 +1,12 @@
 {
   "name": "-readwise2mem",
+  "homepage": ".",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build --output public",
     "preview": "vite preview"
   },
   "dependencies": {
