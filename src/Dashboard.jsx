@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { supabase } from "./supabaseConfig";
 import { useAuth } from "./contexts/Auth";
-import { useNavigate } from "react-router-dom";
 import Modal from "./components/Modal";
 import Backdrop from "./components/Backdrop";
-import Button from "./components/Button";
 import ImportRM from "./components/importRM";
 
 const Dashboard = () => {
