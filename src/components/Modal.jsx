@@ -21,10 +21,8 @@ const Modal = ({
     return decrypted.toString(CryptoJS.enc.Utf8);
   };
   const [editState, setEditState] = useState(false);
-  const [memApiKey, setMemApiKey] = useState(decrypt(user.memApiKey));
-  const [readwiseApiKey, setReadwiseApiKey] = useState(
-    decrypt(user.readwiseApiKey)
-  );
+  const [memApiKey, setMemApiKey] = useState("");
+  const [readwiseApiKey, setReadwiseApiKey] = useState("");
   const [email, setEmail] = useState(user.email);
   const navigateTo = useNavigate();
 
@@ -75,8 +73,8 @@ const Modal = ({
   useEffect(() => {
     console.log("use effetc here");
     console.log(user.memApiKey);
-    setMemApiKey(decrypt(user.memApiKey));
-    setReadwiseApiKey(decrypt(user.readwiseApiKey));
+    setMemApiKey(user.memApiKey ? decrypt(user.memApiKey) : "");
+    setReadwiseApiKey(user.readwiseApiKey ? decrypt(user.readwiseApiKey) : "");
     console.log(user);
   }, []);
 
@@ -131,7 +129,7 @@ const Modal = ({
           )}
         </p>
         <p>
-          Date of the last Import : <span>{user.lastFetched}</span>
+          Date of the last Import : <span>{user.lastFetched || ""}</span>
         </p>
       </form>
       <div className="btn-wrapper">

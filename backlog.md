@@ -7,6 +7,8 @@
 3. Templating
 4. Auto Sync ?
 5. Reset db button
+6. Add Success Message for Sign Up
+7. Warning: `value` prop on `input` should not be null. --> input edit profile
 
 ## Templating
 

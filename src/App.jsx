@@ -26,7 +26,6 @@ function App() {
 
   return (
     <div className="App">
-      <p>Hello there</p>
       <AuthProvider>
         <RouterProvider router={router} />
       </AuthProvider>
