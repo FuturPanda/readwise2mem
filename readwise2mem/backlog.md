@@ -10,7 +10,7 @@
 
 ## Templating
 
-1. Reader's import note's hilight = undefined ?
+1. Reader's import note's highlight = undefined ?
 
 ## Improvements :
 
@@ -18,3 +18,18 @@
 2. Status messages for import sucess / error
 3. ui design for input when editState true
 4. login on key enter when input password && stop propagation
+
+## Continous :
+
+1. transfer all js as rest api on vercel serverless functions to be able to run continous api requests
+   //////
+   useEffect(() => {
+   if (importStatusState) {
+   const intervToSet = setInterval(() => {
+   console.log("intervId");
+   fetchReadwise();
+   }, 6000);
+   setIntervId(intervToSet);
+   } else if (!importStatusState) clearInterval(intervId);
+   }, [importStatusState]);
+   /////

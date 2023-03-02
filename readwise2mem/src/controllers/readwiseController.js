@@ -11,15 +11,14 @@ const formatAndCreate = (newData, memApiKey, userId) => {
     checkBookDB(newData[i], userId, memId, memApiKey);
   }
 };
-const exportAllReadwise = async (token, memApiKey) => {
+const exportAllReadwise = async (token, memApiKey, userId) => {
   const allData = await fetchFromExportApi(token);
-  formatAndCreate(allData, memApiKey);
+  formatAndCreate(allData, memApiKey, userId);
 };
 const exportReadwiseAfterDate = async (token, date, memApiKey, userId) => {
   try {
     console.log("export after date started");
     const lastFetchWasAt = new Date(date); //1676210778201
-    console.log(lastFetchWasAt);
     const newData = await fetchFromExportApi(
       token,
       lastFetchWasAt.toISOString()

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { supabase } from "../supabaseConfig.js";
 import { DateTime } from "luxon";
 import {
@@ -7,8 +7,6 @@ import {
 } from "../controllers/readwiseController";
 import Button from "./Button.jsx";
 import CryptoJS from "crypto-js";
-import { MemClient } from "@mem-labs/mem-node";
-import { v4 as uuidv4 } from "uuid";
 
 const ImportRM = ({
   memApiKey,
@@ -22,6 +20,7 @@ const ImportRM = ({
   // const [lastFetched, setLastFetched] = useState("");
   const [importAllBtn, setImportAllBtn] = useState(false);
   const [importStatusState, setImportStatusState] = useState(importStatus);
+  const [intervId, setIntervId] = useState(null);
 
   const decrypt = (data) => {
     if (!data) return;
@@ -38,29 +37,34 @@ const ImportRM = ({
     const updatedDate = await supabase
       .from("profiles")
       .update({ last_fetched: newDate.toISO() })
-      .eq("id", user);
+      .eq("id", userId);
   };
 
+  const fetchReadwiseAll = async () => {
+    console.log("start import all");
+    const exportAll = await exportAllReadwise(
+      decrypt(readwiseApiKey),
+      decrypt(memApiKey),
+      userId
+    );
+    updateLastFetched();
+  };
   const fetchReadwise = async () => {
+    console.log("start import from date");
     const lastFetchedMs = DateTime.fromISO(lastFetched).ts;
-    // const exportAll = await exportAllReadwise(readwiseApiKey, memApiKey);
-    console.log(userId);
     const exportAfterDate = await exportReadwiseAfterDate(
       decrypt(readwiseApiKey),
       lastFetchedMs,
       decrypt(memApiKey),
       userId
     );
-    console.log("export started");
+    updateLastFetched();
   };
   const handleImportStatus = () => {
-    console.log(importStatusState);
     if (importStatusState == true) {
       setImportStatusState(false);
     } else setImportStatusState(true);
   };
-  // To decoment after -- update DB user profile date last fetched
-  // updateLastFetched();
 
   return (
     <div>
@@ -71,7 +75,17 @@ const ImportRM = ({
           onClick={fetchReadwise}
         />
         <Button
-          text={importStatus == true ? "Importing" : "Import Stopped"}
+          text="Import All"
+          fonction="Test import button"
+          onClick={fetchReadwiseAll}
+        />
+        <Button
+          text="Update Import"
+          fonction="Test import button"
+          onClick={fetchReadwise}
+        />
+        <Button
+          text={importStatusState == true ? "Importing" : "Import Stopped"}
           fonction="import status button"
           onClick={handleImportStatus}
         />
@@ -79,4 +93,5 @@ const ImportRM = ({
     </div>
   );
 };
+
 export default ImportRM;
