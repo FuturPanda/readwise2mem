@@ -6,8 +6,6 @@ import {
 import Dashboard from "./Dashboard";
 import Login from "./Login";
 import { AuthProvider } from "./contexts/Auth";
-import { useAuth } from "./contexts/Auth";
-import { useEffect } from "react";
 import { PrivateRoute } from "./components/PrivateRoute";
 
 function App() {
@@ -28,6 +26,7 @@ function App() {
 
   return (
     <div className="App">
+      <p>Hello there</p>
       <AuthProvider>
         <RouterProvider router={router} />
       </AuthProvider>
