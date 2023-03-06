@@ -17,38 +17,36 @@ const Login = () => {
     if (e) e.preventDefault();
     console.log("clicked");
     if (activeMenu == "signUp") {
-      const { data, error } = await signUp({
-        email: email,
-        password: password,
-      });
-      if (error.message === "User already registered") {
-        const { data, error } = await signIn({
-          email: email,
-          password: password,
-        });
-        if (error) {
-          alert(error.message);
-        } else {
-          console.log("logged in ! : " + data);
-          navigateTo("/");
-        }
-      } else if (error) {
-        alert(error.message);
-      } else {
-        console.log("sign Up ! : " + data);
-        navigateTo("/");
-      }
+      const trySignUp = await handleSignUp();
     } else if (activeMenu == "logIn") {
-      const { data, error } = await signIn({
-        email: email,
-        password: password,
-      });
-      if (error) {
-        alert(error.message);
-      } else {
-        console.log("logged in ! : " + data);
-        navigateTo("/");
-      }
+      const trySignIn = await handleSignIn();
+    }
+  };
+  const handleSignIn = async () => {
+    const { data, error: errorSignin } = await signIn({
+      email: email,
+      password: password,
+    });
+    if (errorSignin) {
+      alert(errorSignin.message);
+    } else {
+      console.log("logged in ! : " + data);
+      navigateTo("/");
+    }
+  };
+  const handleSignUp = async () => {
+    const { data, error: errorSignUp } = await signUp({
+      email: email,
+      password: password,
+    });
+
+    if (errorSignUp) {
+      if (errorSignUp.message === "User already registered") {
+        handleSignIn();
+      } else if (errorSignUp) alert(error.message);
+    } else {
+      console.log("sign Up ! : " + data);
+      navigateTo("/");
     }
   };
 
