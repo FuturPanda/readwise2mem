@@ -5,7 +5,7 @@ import Backdrop from "./components/Backdrop";
 import ImportRM from "./components/importRM";
 
 const Dashboard = () => {
-  const { user: userToSet, signOut, sessionState } = useAuth();
+  const { user: userToSet, signOut, sessionState, getUser } = useAuth();
   const [user, setUser] = useState(userToSet);
   const [activeModal, setActiveModal] = useState(false);
   const [classAnimated, setClassAnimated] = useState("profile-box");
@@ -32,18 +32,21 @@ const Dashboard = () => {
     }
   };
 
-  useEffect(() => {}, [classAnimated]);
+  useEffect(() => {
+    setUser(userToSet);
+  }, []);
 
   return (
     <div className="myprofile dashboard-box">
       <div className="wrapper">
         <Backdrop visible={activeModal} onClick={closeModal}>
           <Modal
-            user={user}
+            user={userToSet}
             signOut={signOut}
             activeModal={activeModal}
             classAnimated={classAnimated}
             session={sessionState}
+            key={user.id}
           />
         </Backdrop>
       </div>

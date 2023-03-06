@@ -10,7 +10,7 @@ const Login = () => {
   const [activeEye, setActiveEye] = useState(true);
   const [inputType, setInputType] = useState("password");
   // const [error, setError] = useState(null);
-  const { signUp, signIn } = useAuth();
+  const { signUp, signIn, user } = useAuth();
   const navigateTo = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -21,8 +21,19 @@ const Login = () => {
         email: email,
         password: password,
       });
-      if (error) {
-        alert(error);
+      if (error.message === "User already registered") {
+        const { data, error } = await signIn({
+          email: email,
+          password: password,
+        });
+        if (error) {
+          alert(error.message);
+        } else {
+          console.log("logged in ! : " + data);
+          navigateTo("/");
+        }
+      } else if (error) {
+        alert(error.message);
       } else {
         console.log("sign Up ! : " + data);
         navigateTo("/");
@@ -33,7 +44,7 @@ const Login = () => {
         password: password,
       });
       if (error) {
-        alert(error);
+        alert(error.message);
       } else {
         console.log("logged in ! : " + data);
         navigateTo("/");

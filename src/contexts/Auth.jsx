@@ -28,25 +28,21 @@ export function AuthProvider({ children }) {
   };
 
   const getAuthChange = async () => {
+    console.log("auth changing");
     const { data: listener } = await supabase.auth.onAuthStateChange(
       (event, session) => {
         console.log(session);
         const userToSet = session?.user ?? null;
         if (userToSet) {
-          setUser({
-            memApiKey: userToSet.mem_api_key ?? null,
-            readwiseApiKey: userToSet.readwise_api_key ?? null,
-            email: userToSet.email,
-            lastFetched: userToSet.last_fetched ?? null,
-            importStatus: userToSet.import_status ?? null,
-          });
-          setSession(session);
+          console.log(userToSet);
+          getUser();
+          setSessionState(session);
         }
         setLoading(false);
       }
     );
-    const { subscription } = listener;
-    return subscription?.unsubscribe();
+    // const { subscription } = listener;
+    return listener;
   };
 
   useEffect(() => {
@@ -55,7 +51,8 @@ export function AuthProvider({ children }) {
     getSession();
 
     return () => {
-      // listener?.unsubscribe();
+      // const { subscription } = listener;
+      // return subscription?.unsubscribe();
     };
   }, []);
 
@@ -64,6 +61,7 @@ export function AuthProvider({ children }) {
     signUp: (data) => supabase.auth.signUp(data),
     signIn: (data) => supabase.auth.signInWithPassword(data),
     signOut: () => supabase.auth.signOut(),
+    getUser,
     user,
     sessionState,
   };

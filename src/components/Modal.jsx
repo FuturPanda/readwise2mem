@@ -5,6 +5,7 @@ import { supabase } from "../supabaseConfig";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 import CryptoJS from "crypto-js";
+import { useAuth } from "../contexts/Auth";
 
 const Modal = ({
   user,
@@ -25,6 +26,7 @@ const Modal = ({
   const [readwiseApiKey, setReadwiseApiKey] = useState("");
   const [email, setEmail] = useState(user.email);
   const navigateTo = useNavigate();
+  const { getUser } = useAuth();
 
   const encrypt = (text) => {
     console.log(text);
@@ -38,6 +40,7 @@ const Modal = ({
   const handleSignOut = async (e) => {
     e.preventDefault();
     await signOut();
+
     navigateTo("/login");
   };
 
@@ -52,6 +55,7 @@ const Modal = ({
       })
       .eq("id", session.user.id);
     console.log(res);
+    const resetUser = await getUser();
     setEditState(false);
   };
 
