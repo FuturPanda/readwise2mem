@@ -14,7 +14,7 @@ const Login = () => {
   const navigateTo = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     console.log("clicked");
     if (activeMenu == "signUp") {
       const { data, error } = await signUp({
@@ -62,6 +62,11 @@ const Login = () => {
   const handleChangePassword = (e) => {
     setPassword(e.target.value);
   };
+  const submitFormHandler = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    handleSubmit();
+  };
 
   return (
     <>
@@ -69,7 +74,11 @@ const Login = () => {
         <div className="header-landing">
           <h2>Readwise To Mem</h2>
         </div>
-        <form action="login.cgi" autoComplete="off">
+        <form
+          action="login.cgi"
+          autoComplete="off"
+          onSubmit={submitFormHandler}
+        >
           <div className="log-choice">
             <button
               className={activeMenu == "signUp" ? "active-menu" : " "}
@@ -94,7 +103,9 @@ const Login = () => {
                 required={true}
                 placeholder="EMAIL"
                 onChange={handleChangeEmail}
-                onKeyDown={(e) => e.stopPropagation}
+                onKeyDown={(e) => {
+                  e.key === "Enter" && e.preventDefault();
+                }}
               />
             </div>
             <div className=" password-box box-input">
@@ -105,7 +116,12 @@ const Login = () => {
                 required={true}
                 placeholder="PASSWORD"
                 onChange={handleChangePassword}
-                onKeyDown={(e) => e.stopPropagation}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleSubmit();
+                  }
+                }}
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
