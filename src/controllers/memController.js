@@ -59,15 +59,19 @@ const formatUniqueMem = (dataobj, userId, memId) => {
 
 const appendMem = async (data, memId, memApiKey) => {
   console.log("mem Appending ...  ");
-  const url = `https://api.mem.ai/v0/mems/${memId}/append`;
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      Authorization: `ApiAccessToken ${memApiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+  try {
+    const url = `https://api.mem.ai/v0/mems/${memId}/append`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `ApiAccessToken ${memApiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+  } catch (error) {
+    alert(error);
+  }
 };
 
 export { formatUniqueMem, appendMem };

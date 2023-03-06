@@ -50,7 +50,7 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    const authChange = getAuthChange();
+    getAuthChange();
     getUser();
     getSession();
 

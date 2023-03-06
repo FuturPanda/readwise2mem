@@ -9,7 +9,7 @@ const checkBookDB = async (dataHighlight, userId, memId, memApiKey) => {
     .from("books_readwise")
     .select()
     .eq("id", user_book_id);
-
+  if (error) alert(error);
   if (data == false) {
     console.log("Book unfound, creating book DB...");
     addBookToDB(user_book_id, highlights, userId, memId);
@@ -25,7 +25,7 @@ const checkBookDB = async (dataHighlight, userId, memId, memApiKey) => {
       });
     }
   } else {
-    console.log("book founded, checking hilight");
+    console.log("book founded, checking highlight");
     const book = data[0];
 
     console.log(book);
@@ -43,31 +43,23 @@ const checkBookDB = async (dataHighlight, userId, memId, memApiKey) => {
   }
 };
 const addHighlightToBook = async (highlight, book) => {
-  try {
-    const { error } = await supabase
-      .from("books_readwise")
-      .update({ highlights: [...book.highlights.highlights, highlight] })
-      .eq("id", book.id);
-    console.log("hightlight added to DB");
-    if (error) throw error;
-  } catch (error) {
-    throw error;
-  }
+  const { error } = await supabase
+    .from("books_readwise")
+    .update({ highlights: [...book.highlights.highlights, highlight] })
+    .eq("id", book.id);
+  console.log("hightlight added to DB");
+  if (error) throw error;
 };
 
 const addBookToDB = async (book_id, highlights, userId, memId) => {
-  try {
-    const allHighlightsID = { highlights: highlights.map((item) => item.id) };
-    const { error } = await supabase.from("books_readwise").insert({
-      id: book_id,
-      highlights: allHighlightsID,
-      user_id: userId,
-      mem_id: memId,
-    });
-    console.log("book added to DB");
-    if (error) throw error;
-  } catch (error) {
-    throw error;
-  }
+  const allHighlightsID = { highlights: highlights.map((item) => item.id) };
+  const { error } = await supabase.from("books_readwise").insert({
+    id: book_id,
+    highlights: allHighlightsID,
+    user_id: userId,
+    mem_id: memId,
+  });
+  console.log("book added to DB");
+  if (error) alert(error);
 };
 export { addBookToDB, checkBookDB };

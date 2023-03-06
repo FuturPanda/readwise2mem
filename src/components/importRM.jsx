@@ -4,6 +4,7 @@ import { DateTime } from "luxon";
 import {
   exportAllReadwise,
   exportReadwiseAfterDate,
+  fakeExportReadwise,
 } from "../controllers/readwiseController";
 import Button from "./Button.jsx";
 import CryptoJS from "crypto-js";
@@ -47,13 +48,16 @@ const ImportRM = ({
   const fetchReadwise = async () => {
     console.log("start import from date");
     const lastFetchedMs = DateTime.fromISO(lastFetched).ts;
-    const exportAfterDate = await exportReadwiseAfterDate(
-      decrypt(readwiseApiKey),
-      lastFetchedMs,
-      decrypt(memApiKey),
-      userId
-    );
-    updateLastFetched();
+    fakeExportReadwise();
+    console.log(lastFetchedMs);
+    console.log(lastFetched);
+    // const exportAfterDate = await exportReadwiseAfterDate(
+    //   decrypt(readwiseApiKey),
+    //   lastFetchedMs,
+    //   decrypt(memApiKey),
+    //   userId
+    // );
+    // updateLastFetched();
   };
   const handleImportStatus = () => {
     if (importStatusState == true) {
