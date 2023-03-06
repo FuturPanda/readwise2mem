@@ -19,7 +19,9 @@ const exportReadwiseAfterDate = async (token, date, memApiKey, userId) => {
   const newData = await fetchFromExportApi(token, lastFetchWasAt.toISOString());
   formatAndCreate(newData, memApiKey, userId);
 };
-const fakeExportReadwise = async () => {
+const fakeExportReadwise = async (dateNb = 0) => {
+  console.log("Fake Import");
+  const lastFetchWasAt = new Date(dateNb);
   const [alldata, error] = await fetchFromExportApi(
     "bloubliblou",
     lastFetchWasAt.toISOString()

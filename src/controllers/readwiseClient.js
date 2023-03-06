@@ -24,6 +24,11 @@ const fetchFromExportApi = async (token, updatedAfter = null) => {
           },
         }
       );
+      if (response.ok == false) {
+        alert(
+          "Something Wrong is Happening. Please make sure your API keys are correct"
+        );
+      }
       const responseJson = await response.json();
       fullData.push(...responseJson["results"]);
       nextPageCursor = responseJson["nextPageCursor"];
@@ -33,7 +38,7 @@ const fetchFromExportApi = async (token, updatedAfter = null) => {
     }
     return fullData;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };
 
